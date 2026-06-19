@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #030506;
+  --foreground: #f8fbff;
 }
 
 @theme inline {
@@ -12,15 +12,634 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: #67e8f9;
+  color: #020617;
+}
+
+.circuit-grid {
+  background-image:
+    linear-gradient(rgba(25, 198, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(25, 198, 255, 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 24% 18%, rgba(25, 198, 255, 0.26), transparent 28%),
+    radial-gradient(circle at 80% 70%, rgba(23, 137, 255, 0.2), transparent 30%);
+  background-size:
+    54px 54px,
+    54px 54px,
+    100% 100%,
+    100% 100%;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+}
+
+.cinematic-panel {
+  border: 1px solid rgba(103, 232, 249, 0.24);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02)),
+    rgba(0, 0, 0, 0.38);
+  box-shadow:
+    0 0 80px rgba(25, 198, 255, 0.18),
+    inset 0 0 60px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+}
+
+.tracks-section {
+  background:
+    radial-gradient(circle at 70% 40%, rgba(25, 198, 255, 0.11), transparent 30%),
+    linear-gradient(180deg, transparent, rgba(23, 137, 255, 0.035) 48%, transparent);
+}
+
+.tracks-circuit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+  mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+}
+
+.tracks-circuit__svg {
+  width: 100%;
+  height: 100%;
+  min-height: 760px;
+}
+
+.tracks-circuit__path,
+.tracks-circuit__branch {
+  fill: none;
+  stroke: url("#track-line");
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url("#track-glow");
+}
+
+.tracks-circuit__path {
+  stroke-width: 5;
+}
+
+.tracks-circuit__path--ghost {
+  stroke: rgba(103, 232, 249, 0.13);
+  stroke-width: 12;
+  filter: none;
+}
+
+.tracks-circuit__branch {
+  stroke-width: 3;
+  opacity: 0.92;
+}
+
+.circuit-node circle:first-child {
+  fill: rgba(103, 232, 249, 0.12);
+  stroke: rgba(103, 232, 249, 0.54);
+  stroke-width: 2;
+}
+
+.circuit-node circle:last-child {
+  fill: #f8fbff;
+  filter: drop-shadow(0 0 12px rgba(103, 232, 249, 0.95));
+}
+
+.track-card {
+  box-shadow:
+    inset 0 0 36px rgba(255, 255, 255, 0.025),
+    0 18px 70px rgba(0, 0, 0, 0.28);
+}
+
+.track-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  opacity: 0.22;
+  background:
+    linear-gradient(90deg, transparent 0 42%, rgba(103, 232, 249, 0.28) 42% 43%, transparent 43%),
+    linear-gradient(0deg, transparent 0 62%, rgba(23, 137, 255, 0.28) 62% 63%, transparent 63%);
+  transform: translateX(calc(var(--track-index) * 8px));
+}
+
+.track-card__scan {
+  position: absolute;
+  inset: 0;
+  transform: translateX(-105%);
+  background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.12), transparent);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.track-card:hover .track-card__scan {
+  transform: translateX(105%);
+}
+
+.process-section {
+  background:
+    radial-gradient(circle at 16% 48%, rgba(103, 232, 249, 0.12), transparent 27%),
+    radial-gradient(circle at 86% 62%, rgba(23, 137, 255, 0.1), transparent 28%),
+    linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.018), transparent);
+}
+
+.process-lab {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 88%, transparent);
+}
+
+.process-lab__svg {
+  width: 100%;
+  height: 100%;
+  min-height: 820px;
+}
+
+.process-lab__tube,
+.process-lab__connector {
+  fill: none;
+  stroke: url("#lab-fluid");
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url("#lab-glow");
+}
+
+.process-lab__tube {
+  stroke-width: 6;
+}
+
+.process-lab__tube--ghost {
+  stroke: rgba(103, 232, 249, 0.12);
+  stroke-width: 16;
+  filter: none;
+}
+
+.process-lab__connector {
+  stroke-width: 3;
+  opacity: 0.92;
+}
+
+.lab-flask path:first-child {
+  fill: rgba(0, 0, 0, 0.2);
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 3;
+}
+
+.lab-flask path:last-child {
+  fill: none;
+  stroke: rgba(103, 232, 249, 0.82);
+  stroke-width: 4;
+  filter: url("#lab-glow");
+}
+
+.lab-bubble {
+  fill: rgba(103, 232, 249, 0.72);
+  filter: drop-shadow(0 0 12px rgba(103, 232, 249, 0.8));
+}
+
+.process-step {
+  box-shadow:
+    inset 0 0 38px rgba(255, 255, 255, 0.024),
+    0 18px 70px rgba(0, 0, 0, 0.26);
+}
+
+.process-step::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.26;
+  background:
+    linear-gradient(90deg, transparent 0 12%, rgba(103, 232, 249, 0.18) 12% 12.6%, transparent 12.6%),
+    repeating-linear-gradient(90deg, transparent 0 42px, rgba(255, 255, 255, 0.05) 42px 43px);
+  transform: translateX(calc(var(--step-index) * 10px));
+}
+
+.process-step__liquid {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3px;
+  background: linear-gradient(90deg, #1789ff, #67e8f9, #ffffff);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 22px rgba(103, 232, 249, 0.8);
+}
+
+.process-step:hover .process-step__liquid {
+  transform: scaleX(1);
+}
+
+.process-step__icon {
+  box-shadow: inset 0 0 22px rgba(103, 232, 249, 0.08);
+}
+
+.process-readout__cell {
+  display: grid;
+  min-height: 42px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.035);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.instagram-section {
+  margin-top: -32px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(103, 232, 249, 0.14), transparent 28%),
+    radial-gradient(circle at 84% 42%, rgba(23, 137, 255, 0.16), transparent 30%),
+    linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.025));
+}
+
+.instagram-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(103, 232, 249, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103, 232, 249, 0.08) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle at 50% 42%, black, transparent 72%);
+}
+
+.instagram-section::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 180px;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, #030506 0%, rgba(3, 5, 6, 0.92) 18%, rgba(3, 5, 6, 0.42) 62%, transparent 100%),
+    radial-gradient(ellipse at 22% 100%, rgba(103, 232, 249, 0.1), transparent 48%);
+}
+
+.instagram-card {
+  position: relative;
+  display: flex;
+  min-height: 220px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+  transform-style: preserve-3d;
+}
+
+.instagram-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(180deg, transparent 18%, rgba(0, 0, 0, 0.72)),
+    linear-gradient(90deg, rgba(103, 232, 249, 0.2), transparent 34%);
+}
+
+.instagram-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-120%);
+  transition:
+    opacity 260ms ease,
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.instagram-card:hover::after {
+  opacity: 1;
+  transform: translateX(120%);
+}
+
+.instagram-card__media {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.5), transparent 12%),
+    radial-gradient(circle at 72% 58%, rgba(103, 232, 249, 0.32), transparent 22%),
+    linear-gradient(135deg, #073763, #0b1220 62%);
+  transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.instagram-card__media img {
+  filter: saturate(0.92) contrast(1.08) brightness(0.82);
+}
+
+.instagram-card:hover .instagram-card__media {
+  transform: scale(1.06);
+}
+
+.instagram-card__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.36;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 4px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12), transparent 42%);
+  mix-blend-mode: screen;
+}
+
+.instagram-card__mark {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  z-index: 4;
+  display: grid;
+  height: 36px;
+  width: 36px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.36);
+  color: white;
+  backdrop-filter: blur(12px);
+}
+
+.instagram-card__content {
+  position: relative;
+  z-index: 4;
+  align-self: flex-end;
+  padding: 20px;
+}
+
+.instagram-card--magenta .instagram-card__media {
+  background:
+    radial-gradient(circle at 22% 18%, #f8fbff, transparent 9%),
+    radial-gradient(circle at 72% 20%, #67e8f9, transparent 18%),
+    linear-gradient(135deg, #d946ef, #0f2f6f 58%, #020304);
+}
+
+.instagram-card--silver .instagram-card__media {
+  background:
+    repeating-conic-gradient(from 18deg, rgba(248, 251, 255, 0.85) 0deg 8deg, rgba(23, 137, 255, 0.58) 8deg 13deg, rgba(0, 0, 0, 0.05) 13deg 18deg),
+    radial-gradient(circle at 52% 48%, #f8fbff, transparent 15%),
+    #0b1220;
+}
+
+.instagram-card--navy .instagram-card__media {
+  background:
+    linear-gradient(130deg, rgba(255, 255, 255, 0.86) 0 20%, transparent 20%),
+    radial-gradient(circle at 75% 24%, rgba(248, 251, 255, 0.95), transparent 18%),
+    linear-gradient(135deg, #0b4b91, #05223f 58%, #020304);
+}
+
+.instagram-card--team .instagram-card__media,
+.instagram-card--lab .instagram-card__media {
+  background:
+    linear-gradient(90deg, rgba(248, 251, 255, 0.12) 0 18%, transparent 18% 25%, rgba(248, 251, 255, 0.18) 25% 42%, transparent 42% 48%, rgba(103, 232, 249, 0.16) 48% 62%, transparent 62%),
+    radial-gradient(circle at 42% 38%, rgba(255, 255, 255, 0.6), transparent 12%),
+    linear-gradient(135deg, #334155, #0f172a);
+}
+
+.instagram-card--violet .instagram-card__media {
+  background:
+    radial-gradient(circle at 70% 32%, rgba(255, 255, 255, 0.86), transparent 15%),
+    linear-gradient(135deg, #312e81, #1d4ed8 52%, #020304);
+}
+
+.instagram-card--dark .instagram-card__media {
+  background:
+    linear-gradient(90deg, rgba(103, 232, 249, 0.22), transparent 28%),
+    repeating-linear-gradient(0deg, #020304 0 22px, #111827 22px 24px),
+    #020304;
+}
+
+
+.nite-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(25, 198, 255, 0.2), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(23, 137, 255, 0.16), transparent 34%),
+    #020304;
+  color: white;
+  isolation: isolate;
+}
+
+.nite-loader--leaving {
+  animation: loaderExit 720ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+.nite-loader__grain,
+.nite-loader__grid,
+.nite-loader__beam {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.nite-loader__grain {
+  opacity: 0.28;
+  background-image:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.04), transparent 35%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 3px);
+  mix-blend-mode: screen;
+}
+
+.nite-loader__grid {
+  background-image:
+    linear-gradient(rgba(103, 232, 249, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(103, 232, 249, 0.11) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at center, black 0 34%, transparent 72%);
+  animation: loaderGridDrift 5s linear infinite;
+}
+
+.nite-loader__beam {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.85), transparent);
+  box-shadow: 0 0 28px rgba(103, 232, 249, 0.8);
+  transform: translateX(-100%);
+}
+
+.nite-loader__beam--top {
+  top: 23%;
+  animation: loaderBeam 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.nite-loader__beam--bottom {
+  top: 77%;
+  animation: loaderBeam 1.8s 420ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.nite-loader__stage {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: min(88vw, 520px);
+  justify-items: center;
+  border: 1px solid rgba(103, 232, 249, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.018)),
+    rgba(0, 0, 0, 0.34);
+  padding: 44px 28px 34px;
+  text-align: center;
+  box-shadow:
+    0 0 90px rgba(25, 198, 255, 0.18),
+    inset 0 0 70px rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(22px);
+  animation: loaderStageIn 920ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.nite-loader__kicker,
+.nite-loader__subtitle {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.nite-loader__kicker {
+  color: rgba(103, 232, 249, 0.9);
+}
+
+.nite-loader__mark {
+  position: relative;
+  display: grid;
+  height: 104px;
+  width: 104px;
+  place-items: center;
+  margin-top: 24px;
+}
+
+.nite-loader__mark svg {
+  height: 64px;
+  width: 64px;
+  filter: drop-shadow(0 0 22px rgba(25, 198, 255, 0.82));
+  animation: loaderMarkPulse 1.8s ease-in-out infinite;
+}
+
+.nite-loader__ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(103, 232, 249, 0.28);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 0 26px rgba(25, 198, 255, 0.16),
+    0 0 30px rgba(25, 198, 255, 0.12);
+  animation: loaderRing 1.55s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.nite-loader__title {
+  margin-top: 24px;
+  font-size: clamp(2rem, 7vw, 4.4rem);
+  font-weight: 650;
+  line-height: 0.95;
+}
+
+.nite-loader__subtitle {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.nite-loader__progress {
+  position: relative;
+  width: min(330px, 72vw);
+  height: 2px;
+  margin-top: 32px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.nite-loader__progress span {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  background: linear-gradient(90deg, #1789ff, #67e8f9, #ffffff);
+  animation: loaderProgress 1.65s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+@keyframes loaderStageIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+    filter: blur(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes loaderExit {
+  to {
+    opacity: 0;
+    transform: scale(1.035);
+    filter: blur(18px);
+    visibility: hidden;
+  }
+}
+
+@keyframes loaderGridDrift {
+  to {
+    background-position: 72px 72px;
+  }
+}
+
+@keyframes loaderBeam {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes loaderRing {
+  0% {
+    transform: scale(0.82);
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.14);
+    opacity: 0;
+  }
+}
+
+@keyframes loaderMarkPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes loaderProgress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nite-loader,
+  .nite-loader *,
+  .circuit-grid {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }
